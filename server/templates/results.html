@@ -1,0 +1,8 @@
+<h1>Shortlisted CVs</h1>
+<ul>
+    {% for cv in cvs %}
+        <li>{{ cv.file.name }} - Uploaded: {{ cv.uploaded_at }}</li>
+    {% empty %}
+        <li>No CVs match your criteria.</li>
+    {% endfor %}
+</ul>
