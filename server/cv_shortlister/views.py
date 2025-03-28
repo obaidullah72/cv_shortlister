@@ -6,19 +6,19 @@ from .utils import extract_text_from_file
 
 class UploadCVView(View):
     def get(self, request: HttpRequest):
-        return render(request, 'cv_processor/upload.html')
+        return render(request, 'index.html')
 
     def post(self, request: HttpRequest):
         cv_file = request.FILES.get('cv_file')
         if cv_file:
             cv = CV.objects.create(file=cv_file)
             cv.save()
-        return render(request, 'cv_processor/upload.html')
+        return render(request, 'index.html')
 
 
 class FilterCVsView(View):
     def get(self, request: HttpRequest):
-        return render(request, 'cv_processor/filter.html')
+        return render(request, 'filter.html')
 
     def post(self, request: HttpRequest):
         keywords = request.POST.get('keywords', '').split(',')
@@ -34,4 +34,4 @@ class FilterCVsView(View):
                 if keyword_count > 0 and has_experience:
                     shortlisted.append(cv)
 
-        return render(request, 'cv_processor/results.html', {'cvs': shortlisted})
+        return render(request, 'results.html', {'cvs': shortlisted})
