@@ -38,8 +38,9 @@ Ensure you have the following installed:
    pip install -r requirements.txt
    ```
 
-4. Apply migrations:
+4. Navigate to the `server` directory and apply migrations:
    ```bash
+   cd server
    python manage.py migrate
    ```
 
@@ -78,11 +79,11 @@ smart-ai-resume-parser/
 │   │   ├── urls.py          # App-specific URL routing
 │   │   ├── utils.py         # Helper functions (AI parsing, etc.)
 │   │   ├── views.py         # Handles requests & responses
-│   ├── cv_shortlister/      # Main Django app
-│   │   ├── settings.py          # Django project settings
-│   │   ├── urls.py              # Global URL routing
-│   │   ├── asgi.py              # ASGI entry point (if using)
-│   │   ├── wsgi.py              # WSGI entry point
+│   ├── server/              # Main Django project settings
+│   │   ├── settings.py      # Django project settings
+│   │   ├── urls.py          # Global URL routing
+│   │   ├── asgi.py          # ASGI entry point (if using)
+│   │   ├── wsgi.py          # WSGI entry point
 ├── media/                   # Uploaded resumes and files
 ├── templates/               # Global HTML templates
 │   ├── cv_list.html         # Resume listing page
@@ -93,22 +94,23 @@ smart-ai-resume-parser/
 ├── db.sqlite3               # SQLite database file
 ├── manage.py                # Django management script
 ├── .gitignore               # Git ignored files
-├── model-install.txt        # AI model installation instructions (if applicable)
-
+├── model-install.txt        # AI model installation instructions
+├── README.md                # Project documentation
+├── requirements.txt         # Project dependencies
 ```
 
 ## Dependencies
+Install all dependencies with:
+```bash
+pip install -r requirements.txt
+```
+
 - `django` - Web framework
 - `python-docx` - DOCX file parsing
 - `pdfplumber` - PDF file parsing
 - `pytesseract` - OCR for scanned documents
 - `transformers` - BERT and NLP models
 - `spacy` - Named Entity Recognition (NER)
-
-Install all dependencies with:
-```bash
-pip install -r requirements.txt
-```
 
 ## License
 This project is licensed under the MIT License.
