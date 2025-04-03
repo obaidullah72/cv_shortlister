@@ -1,14 +1,16 @@
-# CV Shortlister
+# Smart AI-Based Resume Parser
 
 ## Overview
-CV Shortlister is a Django-based web application that allows users to upload resumes and filter them based on experience, education, and skills. The system extracts text from uploaded resumes and matches them against specified criteria to shortlist the most relevant candidates.
+Smart AI-Based Resume Parser is a Django-based web application that automates resume screening. Using Artificial Intelligence (AI) and Natural Language Processing (NLP), it extracts structured data from resumes—such as skills, experience, and education—and matches candidates to job requirements with high accuracy. The system aims to streamline recruitment by reducing processing time, minimizing bias, and improving shortlisting efficiency.
 
 ## Features
-- **Upload CVs**: Users can upload CV files (PDF, DOCX, etc.).
-- **Keyword-Based Filtering**: Shortlists CVs based on specific keywords (skills, job titles, etc.).
-- **Experience Matching**: Filters candidates based on minimum required experience.
-- **Education Filtering**: Identifies candidates with relevant degrees or qualifications.
-- **Shortlisted Results**: Displays shortlisted CVs for further review.
+- **Resume Upload**: Supports multiple file formats (PDF, DOCX, scanned documents).
+- **AI-Powered Parsing**: Extracts structured data (personal details, skills, experience, education) using Named Entity Recognition (NER) and deep learning.
+- **Keyword & Contextual Matching**: Filters resumes based on job-specific keywords and semantic understanding.
+- **Experience & Education Filtering**: Shortlists candidates by minimum experience and relevant qualifications.
+- **Candidate Ranking**: Ranks resumes based on job description compatibility.
+- **Bias Reduction**: Minimizes human bias in the shortlisting process.
+- **Scalable Deployment**: Built for integration with HR systems and large-scale recruitment.
 
 ## Installation
 
@@ -16,19 +18,19 @@ CV Shortlister is a Django-based web application that allows users to upload res
 Ensure you have the following installed:
 - Python 3.x
 - Django
-- Dependencies from `requirements.txt`
+- Dependencies listed in `requirements.txt`
 
 ### Steps
 1. Clone the repository:
    ```bash
    git clone https://github.com/obaidullah72/cv_shortlister.git
-   cd cv_shortlister
+   cd smart-ai-resume-parser
    ```
 
 2. Create and activate a virtual environment:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   python -m venv env
+   source env/bin/activate  # On Windows: `env\Scripts\activate`
    ```
 
 3. Install dependencies:
@@ -46,39 +48,62 @@ Ensure you have the following installed:
    python manage.py runserver
    ```
 
-6. Access the app in your browser at `http://127.0.0.1:8000/`.
+6. Access the app at `http://127.0.0.1:8000/`.
 
 ## Usage
 
-### Uploading a CV
-- Navigate to the homepage and upload a CV file.
-- The file will be stored in the database.
+### Uploading a Resume
+- Navigate to the homepage and upload a resume file (PDF, DOCX, or scanned document).
+- The system processes the file and stores extracted data in the database.
 
-### Filtering CVs
+### Filtering & Ranking Resumes
 - Go to the filtering page.
-- Enter keywords, minimum experience, and education requirements.
-- Click "Filter" to get a list of matching CVs.
+- Enter job-specific criteria (e.g., keywords, minimum experience, education level).
+- Click "Filter" to view shortlisted and ranked resumes.
 
 ## Project Structure
 ```
-cv-shortlister/
-├── server/  # Django project
-│   ├── main_app/  # Main Django app
-│   │   ├── templates/  # HTML templates
-│   │   ├── views.py  # Handles upload & filtering logic
-│   │   ├── models.py  # CV model
-│   │   ├── utils.py  # Text extraction logic
-│   ├── settings.py  # Django settings
-│   ├── urls.py  # URL routing
-├── manage.py  # Django entry point
-├── requirements.txt  # Dependencies
-├── README.md  # Project documentation
+smart-ai-resume-parser/
+├── env/                     # Virtual environment (if applicable)
+├── server/                  # Django project
+│   ├── cv_shortlister/      # Main Django app
+│   │   ├── migrations/      # Database migrations
+│   │   ├── templatetags/    # Custom template tags
+│   │   ├── __init__.py      # Marks this as a package
+│   │   ├── admin.py         # Admin panel configuration
+│   │   ├── apps.py          # App configuration
+│   │   ├── models.py        # Database models (Resume, etc.)
+│   │   ├── tasks.py         # Asynchronous tasks (if using Celery)
+│   │   ├── tests.py         # Unit tests
+│   │   ├── urls.py          # App-specific URL routing
+│   │   ├── utils.py         # Helper functions (AI parsing, etc.)
+│   │   ├── views.py         # Handles requests & responses
+│   ├── cv_shortlister/      # Main Django app
+│   │   ├── settings.py          # Django project settings
+│   │   ├── urls.py              # Global URL routing
+│   │   ├── asgi.py              # ASGI entry point (if using)
+│   │   ├── wsgi.py              # WSGI entry point
+├── media/                   # Uploaded resumes and files
+├── templates/               # Global HTML templates
+│   ├── cv_list.html         # Resume listing page
+│   ├── filter.html          # Filtering interface
+│   ├── index.html           # Homepage
+│   ├── results.html         # Filtered results display
+│   ├── upload.html          # Resume upload form
+├── db.sqlite3               # SQLite database file
+├── manage.py                # Django management script
+├── .gitignore               # Git ignored files
+├── model-install.txt        # AI model installation instructions (if applicable)
+
 ```
 
 ## Dependencies
-- Django
-- Python-docx (for .docx parsing)
-- pdfplumber (for PDF parsing)
+- `django` - Web framework
+- `python-docx` - DOCX file parsing
+- `pdfplumber` - PDF file parsing
+- `pytesseract` - OCR for scanned documents
+- `transformers` - BERT and NLP models
+- `spacy` - Named Entity Recognition (NER)
 
 Install all dependencies with:
 ```bash
@@ -89,8 +114,7 @@ pip install -r requirements.txt
 This project is licensed under the MIT License.
 
 ## Contributing
-Feel free to open issues or submit pull requests for improvements.
+Contributions are welcome! Please open an issue or submit a pull request for suggestions or improvements.
 
 ## Contact
 For questions or feedback, reach out at [your.email@example.com].
-
