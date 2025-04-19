@@ -374,7 +374,7 @@
                 {% if page_obj %}
                 <div class="cv-list">
                     {% for cv in page_obj %}
-                    <div class="cv-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 | mul:100 }}">
+                    <div class="cv-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}">
                         <div class="file-icon">
                             {% if cv.file.name|lower|slice:"-4:" == ".pdf" %}
                             <i class="fas fa-file-pdf"></i>
