@@ -1,122 +1,180 @@
-# Smart AI-Based Resume Parser
+## Smart AI-Based Resume Parser
 
-## Overview
-Smart AI-Based Resume Parser is a Django-based web application that automates resume screening. Using Artificial Intelligence (AI) and Natural Language Processing (NLP), it extracts structured data from resumes—such as skills, experience, and education—and matches candidates to job requirements with high accuracy. The system aims to streamline recruitment by reducing processing time, minimizing bias, and improving shortlisting efficiency.
+### Overview
+The **Smart AI-Based Resume Parser** is a Django-powered web application designed to automate and enhance the resume screening process. Leveraging advanced Artificial Intelligence (AI) and Natural Language Processing (NLP) techniques, it extracts structured data—such as skills, experience, education, and personal details—from resumes in various formats. The system enables precise candidate shortlisting by matching resumes to job requirements, reducing processing time, minimizing bias, and improving recruitment efficiency.
 
-## Features
-- **Resume Upload**: Supports multiple file formats (PDF, DOCX, scanned documents).
-- **AI-Powered Parsing**: Extracts structured data (personal details, skills, experience, education) using Named Entity Recognition (NER) and deep learning.
-- **Keyword & Contextual Matching**: Filters resumes based on job-specific keywords and semantic understanding.
-- **Experience & Education Filtering**: Shortlists candidates by minimum experience and relevant qualifications.
-- **Candidate Ranking**: Ranks resumes based on job description compatibility.
-- **Bias Reduction**: Minimizes human bias in the shortlisting process.
-- **Scalable Deployment**: Built for integration with HR systems and large-scale recruitment.
+---
 
-## Installation
+### Features
 
-### Prerequisites
-Ensure you have the following installed:
-- Python 3.x
-- Django
-- Dependencies listed in `requirements.txt`
+- **Multi-Format Resume Upload:** Supports PDF, DOCX, TXT, and scanned documents (JPG, PNG, JPEG).
+- **AI-Driven Parsing:** Utilizes Named Entity Recognition (NER) and contextual analysis to extract structured data.
+- **Advanced Filtering:** Filters candidates based on:
+  - Education Level (e.g., Bachelor, Master, PhD)
+  - Minimum Experience (calculated from date ranges like "July 2024 – Dec 2024" or "Dec 2024 – Present")
+  - Skills (selectable from dropdown)
+  - Keywords (for contextual matching)
+- **Candidate Ranking:** Scores and ranks resumes based on relevance to job criteria.
+- **Bias Mitigation:** Reduces human bias through automated, data-driven shortlisting.
+- **User-Friendly Interface:** Modern, responsive design with AOS animations and toast notifications.
+- **Scalable Architecture:** Built for easy integration with HR systems and large-scale recruitment pipelines.
 
-### Steps
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/obaidullah72/cv_shortlister.git
-   cd smart-ai-resume-parser
-   ```
+---
 
-2. Create and activate a virtual environment:
-   ```bash
-   python -m venv env
-   source env/bin/activate  # On Windows: `env\Scripts\activate`
-   ```
+### Installation
 
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+#### Prerequisites
+Ensure the following are installed on your system:
 
-4. Navigate to the `server` directory and apply migrations:
-   ```bash
-   cd server
-   python manage.py migrate
-   ```
+- Python 3.8+
+- Django 4.x
+- Git
+- A virtual environment tool (e.g., `venv`)
 
-5. Start the server:
-   ```bash
-   python manage.py runserver
-   ```
+#### Steps
 
-6. Access the app at `http://127.0.0.1:8000/`.
-
-## Usage
-
-### Uploading a Resume
-- Navigate to the homepage and upload a resume file (PDF, DOCX, or scanned document).
-- The system processes the file and stores extracted data in the database.
-
-### Filtering & Ranking Resumes
-- Go to the filtering page.
-- Enter job-specific criteria (e.g., keywords, minimum experience, education level).
-- Click "Filter" to view shortlisted and ranked resumes.
-
-## Project Structure
-```
-smart-ai-resume-parser/
-├── env/                     # Virtual environment (if applicable)
-├── server/                  # Django project
-│   ├── cv_shortlister/      # Main Django app
-│   │   ├── migrations/      # Database migrations
-│   │   ├── templatetags/    # Custom template tags
-│   │   ├── __init__.py      # Marks this as a package
-│   │   ├── admin.py         # Admin panel configuration
-│   │   ├── apps.py          # App configuration
-│   │   ├── models.py        # Database models (Resume, etc.)
-│   │   ├── tasks.py         # Asynchronous tasks (if using Celery)
-│   │   ├── tests.py         # Unit tests
-│   │   ├── urls.py          # App-specific URL routing
-│   │   ├── utils.py         # Helper functions (AI parsing, etc.)
-│   │   ├── views.py         # Handles requests & responses
-│   ├── server/              # Main Django project settings
-│   │   ├── settings.py      # Django project settings
-│   │   ├── urls.py          # Global URL routing
-│   │   ├── asgi.py          # ASGI entry point (if using)
-│   │   ├── wsgi.py          # WSGI entry point
-├── media/                   # Uploaded resumes and files
-├── templates/               # Global HTML templates
-│   ├── cv_list.html         # Resume listing page
-│   ├── filter.html          # Filtering interface
-│   ├── index.html           # Homepage
-│   ├── results.html         # Filtered results display
-│   ├── upload.html          # Resume upload form
-├── db.sqlite3               # SQLite database file
-├── manage.py                # Django management script
-├── .gitignore               # Git ignored files
-├── model-install.txt        # AI model installation instructions
-├── README.md                # Project documentation
-├── requirements.txt         # Project dependencies
+1. **Clone the Repository:**
+```bash
+git clone https://github.com/obaidullah72/smart-ai-resume-parser.git
+cd smart-ai-resume-parser
 ```
 
-## Dependencies
-Install all dependencies with:
+2. **Set Up a Virtual Environment:**
+```bash
+python -m venv env
+source env/bin/activate  # On Windows: env\Scripts\activate
+```
+
+3. **Install Dependencies:**
 ```bash
 pip install -r requirements.txt
 ```
 
+4. **Install NLP Models:**
+```bash
+python -m spacy download en_core_web_sm
+```
+
+5. **Apply Database Migrations:**
+```bash
+cd server
+python manage.py migrate
+```
+
+6. **Start the Development Server:**
+```bash
+python manage.py runserver
+```
+
+7. **Access the Application:**
+Open your browser and go to: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+---
+
+### Usage
+
+#### Uploading Resumes
+- Visit `/upload` to upload one or multiple resumes.
+- Supported formats: PDF, DOCX, TXT, JPG, PNG, JPEG.
+- Extracted data includes skills, experience, education, etc.
+- Toast notifications display success or errors.
+
+#### Viewing Uploaded Resumes
+- Visit `/cv_list` to view uploaded resumes.
+- Each entry includes file name, upload date, status (Processed/Pending), and actions to view/download.
+
+#### Filtering and Ranking Candidates
+- Visit `/filter` to specify job criteria:
+  - Education level
+  - Minimum experience (e.g., 1.5 years)
+  - Up to 5 skills
+  - Comma-separated keywords
+- View results at `/results`, including candidate rankings and toast messages.
+
+---
+
+### Project Structure
+```
+smart-ai-resume-parser/
+├── env/                     # Virtual environment
+├── server/                  # Django project
+│   ├── cv_shortlister/      # Main Django app
+│   │   ├── migrations/      # Database migrations
+│   │   ├── templatetags/    # Custom template tags
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py        # CV database model
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   ├── utils.py         # NLP functions
+│   │   ├── views.py
+│   ├── server/              # Django settings
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── asgi.py
+│   │   ├── wsgi.py
+├── media/                   # Uploaded files
+├── templates/               # HTML templates
+│   ├── cv_list.html
+│   ├── filter.html
+│   ├── index.html
+│   ├── results.html
+│   ├── upload.html
+├── db.sqlite3
+├── manage.py
+├── model-install.txt
+├── README.md
+├── requirements.txt
+```
+
+---
+
+### Dependencies
+Install using:
+```bash
+pip install -r requirements.txt
+```
+
+**Core Packages:**
 - `django` - Web framework
-- `python-docx` - DOCX file parsing
-- `pdfplumber` - PDF file parsing
-- `pytesseract` - OCR for scanned documents
-- `transformers` - BERT and NLP models
-- `spacy` - Named Entity Recognition (NER)
+- `python-docx` - DOCX parsing
+- `pdfminer.six` - PDF text extraction
+- `easyocr` - OCR for scanned resumes
+- `pdf2image` - PDF to image conversion
+- `spacy` - NLP/NER engine
+- `python-dateutil` - Flexible date parsing
 
-## License
-This project is licensed under the MIT License.
+**Additional Requirements:**
+- Install poppler for `pdf2image` to work properly (check platform-specific instructions).
 
-## Contributing
-Contributions are welcome! Please open an issue or submit a pull request for suggestions or improvements.
+---
 
-## Contact
-For questions or feedback, reach out at [your.email@example.com].
+### License
+MIT License. See `LICENSE` file for details.
+
+---
+
+### Contributing
+We welcome contributions!
+
+Steps:
+1. Fork the repo
+2. Create your branch: `git checkout -b feature/your-feature`
+3. Commit changes: `git commit -m "Add your feature"`
+4. Push: `git push origin feature/your-feature`
+5. Open a pull request
+
+Report bugs or request features via [GitHub Issues](https://github.com/obaidullah72/smart-ai-resume-parser/issues).
+
+---
+
+### Contact
+**Email:** obaidullah3372@gmail.com  
+**GitHub:** [obaidullah72](https://github.com/obaidullah72)
+
+---
+
+### Acknowledgments
+Built using Django, spaCy, and EasyOCR for robust AI parsing.
+Inspired by the need to modernize and streamline recruitment through AI.
