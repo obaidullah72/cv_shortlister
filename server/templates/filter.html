@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Advanced CV Filter | TalentFinder</title>
-
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <!-- Custom CSS -->
     <style>
         :root {
@@ -192,10 +188,48 @@
         .skill-badge .remove-skill:hover {
             color: #dc3545;
         }
+
+        /* Toast Container */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+
+        /* Tooltip for Experience */
+        .tooltip-icon {
+            cursor: pointer;
+            color: var(--primary-color);
+            margin-left: 5px;
+        }
     </style>
 </head>
-
 <body>
+    <!-- Toast Container -->
+    <div class="toast-container">
+        {% if error %}
+        <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+            <div class="d-flex">
+                <div class="toast-body">
+                    {{ error }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+        {% endif %}
+        {% if message %}
+        <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+            <div class="d-flex">
+                <div class="toast-body">
+                    {{ message }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -205,12 +239,8 @@
                         <p class="mb-0 opacity-75">Find the perfect candidates with precision</p>
                     </div>
                     <div class="card-body p-4">
-                        {% if error %}
-                            <div class="alert alert-danger">{{ error }}</div>
-                        {% endif %}
                         <form method="post" id="filterForm">
                             {% csrf_token %}
-
                             <div class="mb-4">
                                 <h5 class="section-title">Basic Criteria</h5>
                                 <div class="row g-3">
@@ -230,15 +260,13 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="form-label fw-bold">Experience</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text bg-light"><i class="fas fa-briefcase"></i></span>
-                                                <select name="experience" class="form-select">
-                                                    <option value="">Select years of experience</option>
-                                                    {% for i in experience_levels %}
-                                                    <option value="{{ i }}">{{ i }} Years</option>
-                                                    {% endfor %}
-                                                </select>
+                                            <label class="form-label fw-bold">
+                                                Minimum Experience (Years)
+                                                <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Experience is calculated from date ranges in CVs, e.g., 'July 2024 – Dec 2024' or 'Dec 2024 – Present'."></i>
+                                            </label>
+                                            <div class="animated-input position-relative">
+                                                <input type="number" name="experience" id="experienceInput" class="form-control" placeholder=" " min="0" step="0.5">
+                                                <label>Enter minimum years (e.g., 1.5)</label>
                                             </div>
                                         </div>
                                     </div>
@@ -247,29 +275,22 @@
 
                             <div class="mb-4">
                                 <h5 class="section-title">Skills & Keywords</h5>
-
-                                <!-- Updated Skills Dropdown -->
                                 <div class="form-group mb-4">
                                     <label class="form-label fw-bold mb-2">Select Skills</label>
                                     <div class="dropdown">
-                                        <button class="form-select text-start dropdown-toggle" type="button"
-                                            id="skillsDropdown" data-bs-toggle="dropdown" aria-expanded="false"
-                                            style="padding: 12px 15px; cursor: pointer;">
+                                        <button class="form-select text-start dropdown-toggle" type="button" id="skillsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span id="skillsPlaceholder">Select skills (max 5)</span>
                                         </button>
-                                        <div class="dropdown-menu w-100 p-3" aria-labelledby="skillsDropdown"
-                                            style="max-height: 300px; overflow-y: auto;">
+                                        <div class="dropdown-menu w-100 p-3" aria-labelledby="skillsDropdown">
                                             <div class="mb-2">
-                                                <input type="text" class="form-control form-control-sm mb-2"
-                                                    placeholder="Search skills..." id="skillSearch">
+                                                <input type="text" class="form-control form-control-sm mb-2" placeholder="Search skills..." id="skillSearch">
                                             </div>
                                             <div class="skill-options">
                                                 {% for skill in skills_options %}
                                                 <div class="form-check">
-                                                    <input class="form-check-input skill-checkbox" type="checkbox"
-                                                        value="{{ skill }}" id="skill_{{ forloop.counter }}">
+                                                    <input class="form-check-input skill-checkbox" type="checkbox" value="{{ skill }}" id="skill_{{ forloop.counter }}">
                                                     <label class="form-check-label" for="skill_{{ forloop.counter }}">
-                                                        {{ skill }}
+                                                        {{ skill }
                                                     </label>
                                                 </div>
                                                 {% endfor %}
@@ -307,10 +328,21 @@
 
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <!-- Custom JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Initialize toasts
+            const toasts = document.querySelectorAll('.toast');
+            toasts.forEach(toast => {
+                new bootstrap.Toast(toast).show();
+            });
+
+            // Initialize tooltips
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltipTriggerList.forEach(tooltipTriggerEl => {
+                new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
             // Skills Dropdown Functionality
             const MAX_SKILLS = 5;
             const dropdown = document.getElementById('skillsDropdown');
@@ -340,7 +372,7 @@
                     if (this.checked) {
                         if (selectedSkills.length >= MAX_SKILLS) {
                             this.checked = false;
-                            alert(`You can select maximum ${MAX_SKILLS} skills`);
+                            showToast('error', `You can select maximum ${MAX_SKILLS} skills`);
                             return;
                         }
                         selectedSkills.push(skillValue);
@@ -424,23 +456,50 @@
                 }
             }
 
-            // Form submission handler
+            // Form submission handler with toast
             document.getElementById('filterForm').addEventListener('submit', function (e) {
-                // Ensure at least one criterion is provided
                 const education = document.querySelector('select[name="education"]').value;
-                const experience = document.querySelector('select[name="experience"]').value;
+                const experience = document.querySelector('input[name="experience"]').value;
                 const skills = selectedSkillsInput.value;
                 const keywords = Array.from(keywordTags.querySelectorAll('input[name="keywords"]'))
                     .map(input => input.value)
                     .join(',');
 
+                // Validate experience input
+                if (experience && (isNaN(experience) || experience < 0)) {
+                    e.preventDefault();
+                    showToast('error', 'Please enter a valid number of years for experience (e.g., 1.5)');
+                    return;
+                }
+
                 if (!education && !experience && !skills && !keywords) {
                     e.preventDefault();
-                    alert('Please provide at least one filter criterion');
+                    showToast('error', 'Please provide at least one filter criterion');
                 }
             });
+
+            // Toast notification function
+            function showToast(type, message) {
+                const toastContainer = document.querySelector('.toast-container');
+                const toast = document.createElement('div');
+                toast.className = `toast align-items-center text-white bg-${type === 'error' ? 'danger' : 'success'} border-0`;
+                toast.setAttribute('role', 'alert');
+                toast.setAttribute('aria-live', 'assertive');
+                toast.setAttribute('aria-atomic', 'true');
+                toast.setAttribute('data-bs-autohide', 'true');
+                toast.setAttribute('data-bs-delay', '3000');
+                toast.innerHTML = `
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                `;
+                toastContainer.appendChild(toast);
+                new bootstrap.Toast(toast).show();
+            }
         });
     </script>
 </body>
-
 </html>

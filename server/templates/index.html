@@ -1,40 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-powered CV Shortlister revolutionizes recruitment with intelligent candidate screening and analytics.">
+    <meta name="keywords" content="CV Shortlister, AI recruitment, candidate screening, resume processing">
+    <meta name="author" content="CV Shortlister Team">
+    <meta name="robots" content="index, follow">
     <title>CV Shortlister | AI-Powered Recruitment Solution</title>
 
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="CV Shortlister | AI-Powered Recruitment Solution">
+    <meta property="og:description" content="Streamline hiring with AI-driven CV screening and analytics.">
+    <meta property="og:image" content="https://cvshortlister.com/og-image.jpg">
+    <meta property="og:url" content="https://cvshortlister.com">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CV Shortlister | AI-Powered Recruitment Solution">
+    <meta name="twitter:description" content="Streamline hiring with AI-driven CV screening and analytics.">
+    <meta name="twitter:image" content="https://cvshortlister.com/og-image.jpg">
+
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Animation -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- GSAP for animations (deferred) -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-7vHRdPQQ2QeZ7a0B47G7G6T3I+89Q7pS82W3xW7fXmxB3eAcaO3O2b3fB37+tkcmr+DH+/b1g1av2F29g431P1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" integrity="sha512-7vHRdPQQ2QeZ7a0B47G7G6T3I+89Q7pS82W3xW7fXmxB3eAcaO3O2b3fB37+tkcmr+DH+/b1g1av2F29g431P1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Content Security Policy -->
 
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-light: #3b82f6;
-            --primary-dark: #1d4ed8;
-            --secondary: #7c3aed;
-            --accent: #8b5cf6;
-            --light: #f8fafc;
+            --primary: #1e40af;
+            --primary-light: #60a5fa;
+            --primary-dark: #1e3a8a;
+            --secondary: #6d28d9;
+            --accent: #a78bfa;
+            --light: #f1f5f9;
             --dark: #0f172a;
-            --text: #334155;
-            --muted: #64748b;
-            --border: #e2e8f0;
-            --success: #34c759; /* Matches status-processed from Uploaded CVs */
-            --pending: #f1c40f; /* Matches status-pending from Uploaded CVs */
-            --card-bg: rgba(255, 255, 255, 0.96);
+            --text: #1e293b;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --success: #22c55e;
+            --pending: #f59e0b;
+            --info: #3b82f6;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-accent: linear-gradient(135deg, var(--primary-light), var(--accent));
         }
 
-        * {
+        /* Reset and Base Styles */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -44,33 +68,57 @@
             font-family: 'Inter', sans-serif;
             color: var(--text);
             background-color: var(--light);
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         h1, h2, h3, h4, h5 {
             font-family: 'Playfair Display', serif;
-            font-weight: 600;
+            font-weight: 700;
             line-height: 1.2;
             color: var(--dark);
         }
 
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Container */
         .container {
-            width: 100%;
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
 
+        /* Section */
         .section {
             padding: 6rem 0;
+            position: relative;
         }
 
         .section-title {
             position: relative;
             display: inline-block;
             margin-bottom: 3rem;
-            font-size: 2.25rem;
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title.center {
+            display: block;
+            text-align: center;
         }
 
         .section-title::after {
@@ -78,109 +126,142 @@
             position: absolute;
             bottom: -8px;
             left: 0;
-            width: 50%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 3px;
+            width: 60%;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 4px;
+        }
+
+        .section-title.center::after {
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         /* Hero Section */
         .hero {
             position: relative;
             padding: 8rem 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+            background: var(--gradient);
+            color: #fff;
             overflow: hidden;
         }
 
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSI2MCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
-            opacity: 0.5;
+            inset: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg2MCkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSI4MCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA4KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+            opacity: 0.4;
         }
 
         .hero-content {
             position: relative;
-            z-index: 2;
-            max-width: 800px;
+            z-index: 1;
+            max-width: 850px;
             margin: 0 auto;
             text-align: center;
         }
 
         .hero-title {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             margin-bottom: 1.5rem;
             font-weight: 700;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             opacity: 0.9;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             font-weight: 300;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
+        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.75rem 1.75rem;
-            border-radius: 8px;
-            font-weight: 500;
+            padding: 0.875rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: none;
             cursor: pointer;
             font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.4s ease;
+        }
+
+        .btn:hover::before,
+        .btn:focus::before {
+            left: 0;
+        }
+
+        .btn:focus {
+            outline: 3px solid var(--primary-light);
+            outline-offset: 2px;
         }
 
         .btn-primary {
-            background-color: white;
+            background-color: #fff;
             color: var(--primary);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        .btn-primary:hover,
+        .btn-primary:focus {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
         }
 
         .btn-success {
             background-color: var(--success);
-            color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #fff;
         }
 
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        .btn-success:hover,
+        .btn-success:focus {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
         }
 
         .btn-info {
             background-color: var(--info);
-            color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #fff;
         }
 
-        .btn-info:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        .btn-info:hover,
+        .btn-info:focus {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
         }
 
         .btn-outline {
             background-color: transparent;
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.4);
         }
 
-        .btn-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: white;
+        .btn-outline:hover,
+        .btn-outline:focus {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: #fff;
         }
 
         .btn-group {
@@ -196,7 +277,7 @@
 
         /* Features Section */
         .features {
-            background-color: white;
+            background-color: #fff;
         }
 
         .feature-grid {
@@ -207,17 +288,38 @@
 
         .feature-card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-            transition: all 0.3s ease;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
             border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-            border-color: rgba(37, 99, 235, 0.2);
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: var(--gradient);
+            opacity: 0.05;
+            transition: opacity 0.4s ease;
+            transform: rotate(45deg);
+        }
+
+        .feature-card:hover,
+        .feature-card:focus-within {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-light);
+        }
+
+        .feature-card:hover::before,
+        .feature-card:focus-within::before {
+            opacity: 0.1;
         }
 
         .feature-icon {
@@ -228,9 +330,10 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+            background: var(--gradient);
+            color: #fff;
             font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .feature-title {
@@ -240,6 +343,7 @@
 
         .feature-desc {
             color: var(--muted);
+            font-size: 1rem;
         }
 
         /* Stats Section */
@@ -256,39 +360,31 @@
         .stat-card {
             text-align: center;
             padding: 2rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-            transition: all 0.3s ease;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        .stat-card:hover,
+        .stat-card:focus-within {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
         }
 
         .stat-number {
-            font-size: 3rem;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: 700;
             margin-bottom: 0.5rem;
             font-family: 'Inter', sans-serif;
         }
 
-        .stat-number.processed {
-            color: var(--success);
-        }
-
-        .stat-number.pending {
-            color: var(--pending);
-        }
-
-        .stat-number.total {
-            color: var(--primary);
-        }
-
-        .stat-number.percentage {
-            color: var(--accent);
-        }
+        .stat-number.processed { color: var(--success); }
+        .stat-number.pending { color: var(--pending); }
+        .stat-number.total { color: var(--primary); }
+        .stat-number.percentage { color: var(--accent); }
+        .stat-number.time { color: var(--info); }
+        .stat-number.skills { color: var(--secondary); }
 
         .stat-label {
             color: var(--muted);
@@ -298,8 +394,8 @@
 
         /* CTA Section */
         .cta {
-            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
-            color: white;
+            background: var(--gradient);
+            color: #fff;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -308,12 +404,12 @@
         .cta::before {
             content: '';
             position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
+            top: -60px;
+            right: -60px;
+            width: 250px;
+            height: 250px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .cta::after {
@@ -321,221 +417,563 @@
             position: absolute;
             bottom: -100px;
             left: -100px;
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 350px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .cta-content {
             position: relative;
-            z-index: 2;
-            max-width: 700px;
+            z-index: 1;
+            max-width: 800px;
             margin: 0 auto;
+            padding: 1rem;
         }
 
         .cta-title {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 5vw, 3rem);
             margin-bottom: 1.5rem;
         }
 
         .cta-text {
-            font-size: 1.25rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
             opacity: 0.9;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: var(--dark);
+            color: #fff;
+            padding: 3rem 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h4 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-column p {
+            color: var(--muted);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column ul li a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-column ul li a:hover,
+        .footer-column ul li a:focus {
+            color: var(--primary-light);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--muted);
+            font-size: 0.9rem;
         }
 
         /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .hero { padding: 6rem 0; }
+            .section { padding: 4rem 0; }
+            .section-title { font-size: 2.25rem; }
+            .cta-title { font-size: 2.5rem; }
+        }
+
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
+            .hero { padding: 5rem 0; }
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .section { padding: 3rem 0; }
+            .section-title { font-size: 1.75rem; }
+            .cta-title { font-size: 2rem; }
+            .btn-group { flex-direction: column; align-items: center; gap: 0.75rem; }
+            .btn { width: 100%; max-width: 280px; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+        }
 
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
+        @media (max-width: 480px) {
+            .hero { padding: 4rem 0; }
+            .hero-title { font-size: 2rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .section { padding: 2rem 0; }
+            .section-title { font-size: 1.5rem; }
+            .cta-title { font-size: 1.75rem; }
+            .cta-text { font-size: 1.1rem; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .container { padding: 0 1rem; }
+        }
 
-            .section {
-                padding: 4rem 0;
-            }
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
 
-            .section-title {
-                font-size: 1.75rem;
-            }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-            .cta-title {
-                font-size: 2rem;
-            }
+        /* Loading Animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
 
-            .btn-group {
-                flex-direction: column;
-                align-items: center;
-            }
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
 
-            .btn {
-                width: 100%;
-                max-width: 300px;
-            }
+        /* Visually Hidden (for screen readers) */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* No JavaScript Fallback */
+        .no-js .loading {
+            animation: none;
+        }
+
+        .no-js .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Error State */
+        .stat-error {
+            color: var(--muted);
+            font-size: 1rem;
+            font-weight: 500;
         }
     </style>
 </head>
+<body class="no-js">
+    {% load cv_filters static %}
+    <!-- Remove no-js class when JavaScript is enabled -->
+    <script>document.body.classList.remove('no-js');</script>
 
-<body>
-    {% load cv_filters %}
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="visually-hidden">Skip to main content</a>
+
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" aria-labelledby="hero-title">
         <div class="container">
-            <div class="hero-content" data-aos="fade-up">
-                <h1 class="hero-title">Modern CV Shortlisting</h1>
-                <p class="hero-subtitle">
-                    AI-powered candidate screening that learns your preferences and delivers the most qualified applicants
+            <div class="hero-content">
+                <h1 id="hero-title" class="hero-title fade-in">Intelligent CV Shortlisting</h1>
+                <p class="hero-subtitle fade-in">
+                    Revolutionize your recruitment with AI-driven candidate screening that adapts to your needs and uncovers top talent effortlessly.
                 </p>
-                <div class="btn-group">
-                    <a href="{% url 'upload_cv' %}" class="btn btn-primary" data-aos="fade-up" data-aos-delay="100">
-                        <i class="fas fa-cloud-upload-alt"></i> Upload CVs
+                <nav class="btn-group" aria-label="Hero navigation">
+                    <a href="{% url 'upload_cv' %}" class="btn btn-primary fade-in" style="transition-delay: 0.2s">
+                        <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Upload CVs
                     </a>
-                    <a href="{% url 'filter_cvs' %}" class="btn btn-success" data-aos="fade-up" data-aos-delay="200">
-                        <i class="fas fa-filter"></i> Filter CVs
+                    <a href="{% url 'filter_cvs' %}" class="btn btn-success fade-in" style="transition-delay: 0.3s">
+                        <i class="fas fa-filter" aria-hidden="true"></i> Filter CVs
                     </a>
-                    <a href="{% url 'cv_list' %}" class="btn btn-info" data-aos="fade-up" data-aos-delay="300">
-                        <i class="fas fa-list"></i> View List
+                    <a href="{% url 'cv_list' %}" class="btn btn-info fade-in" style="transition-delay: 0.4s">
+                        <i class="fas fa-list" aria-hidden="true"></i> View List
                     </a>
-                </div>
+                </nav>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="section features">
+    <section id="main-content" class="section features" aria-labelledby="features-title">
         <div class="container">
-            <h2 class="section-title text-center" data-aos="fade-up">Advanced Features</h2>
+            <h2 id="features-title" class="section-title center">Powerful Features</h2>
             <div class="feature-grid">
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                <article class="feature-card fade-in">
                     <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
+                        <i class="fas fa-bolt" aria-hidden="true"></i>
                     </div>
-                    <h3 class="feature-title">Instant Processing</h3>
+                    <h3 class="feature-title">Lightning-Fast Processing</h3>
                     <p class="feature-desc">
-                        Analyze hundreds of resumes in seconds with our optimized screening algorithms.
+                        Process thousands of resumes in moments with cutting-edge AI algorithms that analyze and categorize CVs in seconds.
                     </p>
-                </div>
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                </article>
+                <article class="feature-card fade-in" style="transition-delay: 0.1s">
                     <div class="feature-icon">
-                        <i class="fas fa-robot"></i>
+                        <i class="fas fa-robot" aria-hidden="true"></i>
                     </div>
-                    <h3 class="feature-title">AI Matching</h3>
+                    <h3 class="feature-title">Adaptive AI Matching</h3>
                     <p class="feature-desc">
-                        Machine learning models that adapt to your hiring patterns and improve over time.
+                        Continuously learns your preferences to deliver precise candidate matches that improve with each use.
                     </p>
-                </div>
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                </article>
+                <article class="feature-card fade-in" style="transition-delay: 0.2s">
                     <div class="feature-icon">
-                        <i class="fas fa-chart-pie"></i>
+                        <i class="fas fa-chart-pie" aria-hidden="true"></i>
                     </div>
-                    <h3 class="feature-title">Smart Analytics</h3>
+                    <h3 class="feature-title">Insightful Analytics</h3>
                     <p class="feature-desc">
-                        Visual dashboards with candidate pipeline metrics and diversity statistics.
+                        Comprehensive dashboards with real-time metrics, diversity insights, and candidate pipeline visualization.
                     </p>
-                </div>
+                </article>
             </div>
         </div>
     </section>
 
     <!-- Stats Section -->
-    <section class="section stats">
+    <section class="section stats" aria-labelledby="stats-title">
         <div class="container">
-            <h2 class="section-title text-center" data-aos="fade-up">Your Recruitment Stats</h2>
+            <h2 id="stats-title" class="section-title center">Your Recruitment Insights</h2>
             <div class="stats-grid">
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="stat-number total" data-count="{{ total_cvs|default:0 }}">{{ total_cvs|default:0 }}</div>
+                <article class="stat-card fade-in">
+                    <div class="stat-number total" data-count="{{ total_cvs|default:0 }}" aria-label="Total CVs Uploaded">
+                        {% if total_cvs is not None %}
+                            <span class="loading">{{ total_cvs|default:"0" }}</span>
+                        {% else %}
+                            <span class="stat-error">Data unavailable</span>
+                        {% endif %}
+                    </div>
                     <div class="stat-label">Total CVs Uploaded</div>
-                </div>
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="stat-number processed" data-count="{{ processed_cvs|default:0 }}">{{ processed_cvs|default:0 }}</div>
+                </article>
+                <article class="stat-card fade-in" style="transition-delay: 0.1s">
+                    <div class="stat-number processed" data-count="{{ processed_cvs|default:0 }}" aria-label="CVs Processed">
+                        {% if processed_cvs is not None %}
+                            <span class="loading">{{ processed_cvs|default:"0" }}</span>
+                        {% else %}
+                            <span class="stat-error">Data unavailable</span>
+                        {% endif %}
+                    </div>
                     <div class="stat-label">CVs Processed</div>
-                </div>
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="stat-number pending" data-count="{{ pending_cvs|default:0 }}">{{ pending_cvs|default:0 }}</div>
-                    <div class="stat-label">CVs Pending Process</div>
-                </div>
-                
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="stat-number percentage" data-count="{{ completion_percentage|default:0 }}">{{ completion_percentage|default:0 }}%</div>
+                </article>
+                <article class="stat-card fade-in" style="transition-delay: 0.2s">
+                    <div class="stat-number pending" data-count="{{ pending_cvs|default:0 }}" aria-label="CVs Pending">
+                        {% if pending_cvs is not None %}
+                            <span class="loading">{{ pending_cvs|default:"0" }}</span>
+                        {% else %}
+                            <span class="stat-error">Data unavailable</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-label">CVs Pending</div>
+                </article>
+                <article class="stat-card fade-in" style="transition-delay: 0.3s">
+                    <div class="stat-number percentage" data-count="{{ completion_percentage|default:0 }}" aria-label="Processing Progress">
+                        {% if completion_percentage is not None %}
+                            <span class="loading">{{ completion_percentage|default:"0" }}%</span>
+                        {% else %}
+                            <span class="stat-error">Data unavailable</span>
+                        {% endif %}
+                    </div>
                     <div class="stat-label">Processing Progress</div>
-                </div>
+                </article>
+                <article class="stat-card fade-in" style="transition-delay: 0.4s">
+                    <div class="stat-number time" data-count="{{ avg_processing_time|default:0 }}" aria-label="Average Processing Time">
+                        {% if avg_processing_time is not None %}
+                            <span class="loading">{{ avg_processing_time|default:"0" }}s</span>
+                        {% else %}
+                            <span class="stat-error">Data unavailable</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-label">Avg. Processing Time</div>
+                </article>
+                <article class="stat-card fade-in" style="transition-delay: 0.5s">
+                    <div class="stat-number skills" data-count="{{ top_skills_detected|default:0 }}" aria-label="Top Skills Detected">
+                        {% if top_skills_detected is not None %}
+                            <span class="loading">{{ top_skills_detected|default:"0" }}</span>
+                        {% else %}
+                            <span class="stat-error">Data unavailable</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-label">Top Skills Detected</div>
+                </article>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="section cta">
+    <section class="section cta" aria-labelledby="cta-title">
         <div class="container">
-            <div class="cta-content" data-aos="fade-up">
-                <h2 class="cta-title">Transform Your Hiring Process</h2>
-                <p class="cta-text">
-                    Join leading companies who trust our platform to find their perfect candidates
+            <div class="cta-content">
+                <h2 id="cta-title" class="cta-title fade-in">Elevate Your Hiring Process</h2>
+                <p class="cta-text fade-in" style="transition-delay: 0.1s">
+                    Join industry leaders who trust our AI-powered platform to find exceptional talent while saving time and resources.
                 </p>
-                <div class="btn-group">
-                    <a href="{% url 'upload_cv' %}" class="btn btn-primary" data-aos="fade-up" data-aos-delay="100">
-                        <i class="fas fa-rocket"></i> Get Started Now
+                <nav class="btn-group" aria-label="CTA navigation">
+                    <a href="{% url 'upload_cv' %}" class="btn btn-primary fade-in" style="transition-delay: 0.2s">
+                        <i class="fas fa-rocket" aria-hidden="true"></i> Get Started Now
                     </a>
-                    <a href="#" class="btn btn-outline" data-aos="fade-up" data-aos-delay="200">
-                        <i class="fas fa-play-circle"></i> Watch Demo
+                    <a href="#" class="btn btn-outline fade-in" style="transition-delay: 0.3s">
+                        <i class="fas fa-play-circle" aria-hidden="true"></i> Watch Demo
                     </a>
-                </div>
+                </nav>
             </div>
         </div>
     </section>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 800,
-            easing: 'ease-out-quart',
-            once: true
-        });
+    <!-- Footer Section -->
+    <footer class="footer" aria-label="Footer">
+        <div class="container">
+            <div class="footer-grid">
+                <section class="footer-column fade-in">
+                    <h4>About CV Shortlister</h4>
+                    <p>AI-powered recruitment solutions designed to streamline your hiring process and uncover top talent with precision and efficiency.</p>
+                </section>
+                <nav class="footer-column fade-in" style="transition-delay: 0.1s" aria-label="Quick links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{% url 'upload_cv' %}">Upload CVs</a></li>
+                        <li><a href="{% url 'filter_cvs' %}">Filter CVs</a></li>
+                        <li><a href="{% url 'cv_list' %}">View List</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </nav>
+                <nav class="footer-column fade-in" style="transition-delay: 0.2s" aria-label="Contact information">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><a href="mailto:support@cvshortlister.com"><i class="fas fa-envelope" aria-hidden="true"></i> support@cvshortlister.com</a></li>
+                        <li><a href="tel:+1234567890"><i class="fas fa-phone" aria-hidden="true"></i> +1 (234) 567-890</a></li>
+                        <li><a href="#"><i class="fas fa-comment-dots" aria-hidden="true"></i> Live Chat</a></li>
+                    </ul>
+                </nav>
+                <nav class="footer-column fade-in" style="transition-delay: 0.3s" aria-label="Social media">
+                    <h4>Follow Us</h4>
+                    <ul>
+                        <li><a href="https://twitter.com/cvshortlister" rel="noopener noreferrer" target="_blank"><i class="fab fa-twitter" aria-hidden="true"></i> Twitter</a></li>
+                        <li><a href="https://linkedin.com/company/cvshortlister" rel="noopener noreferrer" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+                        <li><a href="https://github.com/cvshortlister" rel="noopener noreferrer" target="_blank"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="footer-bottom fade-in" style="transition-delay: 0.4s">
+                <p>© 2025 CV Shortlister. All rights reserved. <span style="opacity: 0.7;">|</span> <a href="#" style="color: var(--muted);">Privacy Policy</a> <span style="opacity: 0.7;">|</span> <a href="#" style="color: var(--muted);">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
 
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "CV Shortlister",
+        "url": "https://cvshortlister.com",
+        "description": "AI-powered recruitment solution for intelligent CV screening and analytics.",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://cvshortlister.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+
+    <!-- JavaScript -->
+    <script defer>
+        // Utility function to animate numbers
+        const animateNumber = (element, target, isPercentage, isTime) => {
+            let count = parseFloat(element.textContent.replace(/[^0-9.]/g, '')) || 0;
+            const increment = target > 1000 ? Math.ceil(target / 100) : target / 50;
+            const speed = target > 100 ? 10 : 30;
+
+            element.classList.remove('loading');
+
+            if (count < target) {
+                count = Math.min(count + increment, target);
+                element.textContent = (count % 1 === 0 ? count : count.toFixed(1)) + (isPercentage ? '%' : isTime ? 's' : '');
+                setTimeout(() => animateNumber(element, target, isPercentage, isTime), speed);
+            } else {
+                element.textContent = target + (isPercentage ? '%' : isTime ? 's' : '');
+            }
+        };
+
+        // Intersection Observer for fade-in animations
+        const initFadeAnimations = () => {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            fadeElements.forEach(element => observer.observe(element));
+        };
+
+        // Stats counter animation
+        const initStatsCounter = () => {
+            const counters = document.querySelectorAll('.stat-number:not(.stat-error)');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = parseFloat(counter.dataset.count) || 0;
+                        const isPercentage = counter.classList.contains('percentage');
+                        const isTime = counter.classList.contains('time');
+                        const span = counter.querySelector('span:not(.stat-error)');
+                        if (span) {
+                            animateNumber(span, target, isPercentage, isTime);
+                        }
+                        observer.unobserve(counter);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(counter => observer.observe(counter));
+        };
+
+        // GSAP Animations
+        const initGSAPAnimations = () => {
+            if (!window.gsap || !window.ScrollTrigger) return;
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero animations
+            gsap.from('.hero-title', {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.hero-subtitle', {
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                delay: 0.3,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.hero .btn', {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.2,
+                delay: 0.6,
+                ease: 'power3.out'
+            });
+
+            // Features animations
+            gsap.utils.toArray('.feature-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    },
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    delay: i * 0.1
                 });
             });
-        });
 
-        // Counter animation for stats
-        document.addEventListener('DOMContentLoaded', () => {
-            const counters = document.querySelectorAll('.stat-number');
-            counters.forEach(counter => {
-                const updateCount = () => {
-                    const target = +counter.getAttribute('data-count');
-                    const count = +counter.innerText.replace('%', '');
-                    const speed = 200; // Adjust speed of animation
-                    const increment = target / speed;
-
-                    if (count < target) {
-                        counter.innerText = Math.ceil(count + increment) + (counter.classList.contains('percentage') ? '%' : '');
-                        setTimeout(updateCount, 10);
-                    } else {
-                        counter.innerText = target + (counter.classList.contains('percentage') ? '%' : '');
-                    }
-                };
-
-                // Start counter when in view
-                const observer = new IntersectionObserver((entries) => {
-                    if (entries[0].isIntersecting) {
-                        updateCount();
-                        observer.disconnect();
-                    }
-                }, { threshold: 0.5 });
-                observer.observe(counter);
+            // Stats animations
+            gsap.utils.toArray('.stat-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    },
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    delay: i * 0.1
+                });
             });
+
+            // CTA animations
+            gsap.from('.cta-title', {
+                scrollTrigger: {
+                    trigger: '.cta',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.cta-text', {
+                scrollTrigger: {
+                    trigger: '.cta',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                delay: 0.2,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.cta .btn', {
+                scrollTrigger: {
+                    trigger: '.cta',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.2,
+                delay: 0.4,
+                ease: 'power3.out'
+            });
+        };
+
+        // Smooth scroll for anchor links
+        const initSmoothScroll = () => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = anchor.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        };
+
+        // Initialize all scripts after DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initFadeAnimations();
+            initStatsCounter();
+            initGSAPAnimations();
+            initSmoothScroll();
         });
     </script>
 </body>
-
 </html>
