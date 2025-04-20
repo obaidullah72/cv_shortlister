@@ -5,10 +5,8 @@ from django.http import HttpRequest
 from django.core.paginator import Paginator
 from .models import CV
 from .utils import extract_text_from_file, check_experience, extract_entities
-from .tasks import start_cv_processing  
 import logging
 import os
-
 
 class HomeView(TemplateView):
     def get(self, request: HttpRequest):
@@ -24,7 +22,6 @@ class HomeView(TemplateView):
             'completion_percentage': round(completion_percentage, 1),
         }
         return render(request, 'index.html', context)
-    
 
 class UploadCVView(View):
     def get(self, request: HttpRequest):
@@ -33,7 +30,7 @@ class UploadCVView(View):
     def post(self, request: HttpRequest):
         cv_files = request.FILES.getlist('cv_files')
         upload_results = []
-        allowed_types = ['.pdf', '.docx', '.txt']
+        allowed_types = ['.pdf', '.docx', '.txt', '.jpg', '.jpeg', '.png']
         max_size = 5 * 1024 * 1024  # 5MB
 
         if not cv_files:
@@ -41,65 +38,76 @@ class UploadCVView(View):
 
         for cv_file in cv_files:
             ext = os.path.splitext(cv_file.name)[1].lower()
-            if ext not in allowed_types or cv_file.size > max_size:
+            
+            if ext not in allowed_types:
                 upload_results.append({
                     'name': cv_file.name,
                     'success': False,
-                    'error': 'Invalid file type or size (>5MB)'
+                    'error': f'Invalid file type ({ext})'
+                })
+                continue
+                
+            if cv_file.size > max_size:
+                upload_results.append({
+                    'name': cv_file.name,
+                    'success': False,
+                    'error': f'File too large ({cv_file.size/1024/1024:.1f}MB > 5MB)'
                 })
                 continue
 
             try:
                 cv = CV(file=cv_file)
                 cv.save()
-                # Process synchronously for testing
+                
                 cv.extracted_text = extract_text_from_file(cv.file.path)
+                
+                if cv.extracted_text:
+                    cv.entities = extract_entities(cv.extracted_text)
+                
                 cv.save()
+                
                 upload_results.append({
                     'name': cv_file.name,
                     'success': True,
-                    'message': 'Processed immediately'
+                    'message': 'Successfully processed'
                 })
-                print(f"CV {cv_file.name} uploaded and processed.")
+                
             except Exception as e:
-                print(f"Error uploading {cv_file.name}: {str(e)}")
+                if 'cv' in locals():
+                    cv.delete()
+                    
                 upload_results.append({
                     'name': cv_file.name,
                     'success': False,
-                    'error': f"Upload failed: {str(e)}"
+                    'error': f"Processing failed: {str(e)}"
                 })
 
         return render(request, 'upload.html', {
-            'message': f'{len(cv_files)} CV(s) uploaded',
+            'message': f'Processed {len([r for r in upload_results if r["success"]])} of {len(cv_files)} file(s)',
             'upload_results': upload_results
         })
-        
+
 class CVListView(View):
     def get(self, request: HttpRequest):
         cvs = CV.objects.all().order_by('-uploaded_at')
-        paginator = Paginator(cvs, 10)
+        paginator = Paginator(cvs, 5)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         pending_cvs = CV.objects.filter(extracted_text__isnull=True).count()
-
 
         for cv in page_obj:
             cv.status = 'Processed' if cv.extracted_text else 'Pending'
 
         return render(request, 'cv_list.html', {
             'page_obj': page_obj,
-            'pending_cvs': pending_cvs,  
+            'pending_cvs': pending_cvs,
         })
-
-
-
-
 
 class FilterCVsView(View):
     def get(self, request: HttpRequest):
         education_levels = ['Intermediate', 'Bachelor', 'Master', 'PhD']
         skills_options = ['Python', 'Java', 'SQL', 'Django', 'Machine Learning', 'Project Management']
-        experience_levels = [str(i) for i in range(16)]
+        experience_levels = [str(i) for i in range(16)]  # Kept for context, not used in HTML
         context = {
             'education_levels': education_levels,
             'skills_options': skills_options,
@@ -151,8 +159,8 @@ class FilterCVsView(View):
             # Experience check
             if experience:
                 try:
-                    exp_years = int(experience)
-                    matches['experience'] = check_experience(text, exp_years)
+                    exp_years = float(experience)  # Changed from int to float
+                    matches['experience'] = check_experience(cv.extracted_text, exp_years)
                 except ValueError:
                     matches['experience'] = False
             else:
@@ -189,7 +197,9 @@ class FilterCVsView(View):
                 'skills': skills_list,
                 'experience': experience,
                 'keywords': keywords_list
-            }
+            },
+            'message': 'Search completed successfully' if shortlisted else 'No CVs matched the criteria'
         }
-        return render(request, 'results.html', context)
+        return render(request, 'results.html', context)  
+    
     
